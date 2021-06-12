@@ -1,4 +1,5 @@
 'use strict';
+console.log('Initiation');
 
 function titleClickHandler(event){
   console.log('Link was clicked!');
@@ -15,10 +16,25 @@ function titleClickHandler(event){
   /* find the correct article using the selector (value of 'href' attribute) */
 
   /* add class 'active' to the correct article */
-}
 
+  
+  
+  const activeLinks = document.querySelectorAll('.titles a.active');
+  
+  for(let activeLink of activeLinks){
+    activeLink.classList.remove('active');
+  }
+  
+  const activeArticles = document.querySelectorAll('.posts article.active');
+  
+  for(let activeArticle of activeArticles){
+    activeArticle.classList.remove('active');
+  }
+
+}
 const links = document.querySelectorAll('.titles a');
 
-for(let link of links){
-  link.addEventListener('click', titleClickHandler);
-}
+  for(let link of links){
+    link.addEventListener('click', titleClickHandler);
+  }
+
