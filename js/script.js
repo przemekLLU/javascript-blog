@@ -2,12 +2,12 @@
 
 //SECOND MODULE
 
-const optArticleSelector = '.post';
+//const optArticleSelector = '.post';
 const  optTitleSelector = '.post-title';
-const  optTitleListSelector = '.titles';
+//const  optTitleListSelector = '.titles';
 
 function generateTitleLinks(){
-    const titleList = (document.querySelector(optTitleListSelector)).innerHTML = '';
+    //const titleList = (document.querySelector(optTitleListSelector)).innerHTML = '';
     const articles = document.querySelectorAll('.post');
     let html = '';
 
@@ -37,11 +37,11 @@ function titleClickHandler(event){
     const activeArticles = document.querySelectorAll('.posts article.active');
   
     for(let activeArticle of activeArticles){
-         activeArticle.classList.remove('active');
+        activeArticle.classList.remove('active');
     }
 
     clickedElement.classList.add('active');
-    const articleSelector = clickedElement.getAttribute("href");
+    const articleSelector = clickedElement.getAttribute('href');
     const articleId = articleSelector.replace('#','');
     const targetArticle = document.querySelector(`[id='${articleId}']`);
     targetArticle.classList.add('active');   
