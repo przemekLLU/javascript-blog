@@ -1,5 +1,29 @@
-//'use strict';
-// Module first, adding classes, opening articles
+'use strict';
+
+//SECOND MODULE
+
+const optArticleSelector = '.post';
+const  optTitleSelector = '.post-title';
+const  optTitleListSelector = '.titles';
+
+function generateTitleLinks(){
+    const titleList = (document.querySelector(optTitleListSelector)).innerHTML = '';
+    const articles = document.querySelectorAll('.post');
+    let html = '';
+
+    for(let article of articles){
+        const articleId = article.getAttribute('id');
+        const articleTitle = (article.querySelector(optTitleSelector)).innerHTML;
+        const linkHTML = '<li><a href="#' + articleId+'"><span>' + articleTitle +'</span></a></li>';        
+        html = html + linkHTML;
+    } 
+    let listInsertPoint = document.getElementById('linkTitleList');
+    listInsertPoint.insertAdjacentHTML('afterbegin',html);
+}
+generateTitleLinks();
+
+
+// FIRST MODULE, adding classes, opening articles
 function titleClickHandler(event){
     event.preventDefault();
     const clickedElement = this;
@@ -29,24 +53,3 @@ for(let link of links){
     link.addEventListener('click', titleClickHandler);
 }    
 
-//SECOND MODULE
-
-const optArticleSelector = '.post';
-const  optTitleSelector = '.post-title';
-const  optTitleListSelector = '.titles';
-
-function generateTitleLinks(){
-    const titleList = (document.querySelector(optTitleListSelector)).innerHTML = '';
-    const articles = document.querySelectorAll('.post');
-    let html = '';
-
-    for(let article of articles){
-        const articleId = article.getAttribute('id');
-        const articleTitle = (article.querySelector(optTitleSelector)).innerHTML;
-        const linkHTML = '<li><a href="#' + articleId+'"><span>' + articleTitle +'</span></a></li>';        
-        html = html + linkHTML;
-    } 
-    let listInsertPoint = document.getElementById('linkTitleList');
-    listInsertPoint.insertAdjacentHTML('afterbegin',html);
-}
-generateTitleLinks();
