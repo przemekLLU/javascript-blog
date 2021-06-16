@@ -5,6 +5,7 @@
 //const optArticleSelector = '.post';
 const  optTitleSelector = '.post-title';
 //const  optTitleListSelector = '.titles';
+const optArticleTagsSelector = '.post-tags .list';
 
 function generateTitleLinks(){
     //const titleList = (document.querySelector(optTitleListSelector)).innerHTML = '';
@@ -17,7 +18,7 @@ function generateTitleLinks(){
         const linkHTML = '<li><a href="#' + articleId+'"><span>' + articleTitle +'</span></a></li>';        
         html = html + linkHTML;
     } 
-    let listInsertPoint = document.getElementById('linkTitleList');
+    let listInsertPoint = document.getElementById('link-title-list');
     listInsertPoint.insertAdjacentHTML('afterbegin',html);
 }
 generateTitleLinks();
@@ -53,3 +54,27 @@ for(let link of links){
     link.addEventListener('click', titleClickHandler);
 }    
 
+
+//THIRD MODULE generating tags
+
+function generateTags(){
+    const articles = document.querySelectorAll('.post');
+    let html = '';
+
+    for(let article of articles){
+        const articleTags = article.getAttribute('data-tags');
+        const articleTagsArray = articleTags.split(' ');
+        console.log(articleTagsArray);
+        
+        for (let tag of articleTagsArray)
+        {
+            const tagHTML = '<li><a href="#tag-' + tag +'"><span>' + tag +'</span></a></li>';  
+            html = html + tagHTML;
+        }  
+        
+    } 
+    console.log(html);
+    let tagInsertPoint = document.getElementById('tag-list');
+    tagInsertPoint.insertAdjacentHTML('beforeend',html);
+  }
+  generateTags();
