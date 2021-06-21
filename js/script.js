@@ -19,7 +19,7 @@ function generateTitleLinks(customSelector = ''){
     let listInsertPoint = document.getElementById('link-title-list');
     listInsertPoint.insertAdjacentHTML('afterbegin',html);
     
-    console.log(optArticleSelector, customSelector);
+    console.log("test",optArticleSelector, customSelector);
 }
 generateTitleLinks(); //END OF SECOND MODULE
 
@@ -27,27 +27,37 @@ generateTitleLinks(); //END OF SECOND MODULE
 
 function generateTags(){   
     const articles = document.querySelectorAll('.post');  
-   
+
     for(let article of articles) {
         let html = '';
-
         const articleTags = article.getAttribute('data-tags');
         const articleTagsArray = articleTags.split(' ');
-        //console.log(articleTagsArray);        
-
         for (let tag of articleTagsArray) {
             const tagHTML = '<li><a class="tag-link" href="#tag-' + tag +'"><span>' + tag +'</span></a></li>'+ ' ';  
             html = html + tagHTML;
-         }
-
-         const tagsElement = article.querySelector('.list.list-horizontal');         
-         tagsElement.innerHTML = html;        
-
+        }
+        const tagsElement = article.querySelector('.list.list-horizontal');         
+        tagsElement.innerHTML = html;        
     } 
-  
-  }
-  generateTags();   //END OF THIRD MODULE
+}
+generateTags();   //END OF THIRD MODULE
 
+//BEGIN OF FOURTH MODULE
+function generateAuthor(){
+    let html='';
+    const article = document.querySelector('.post.active');
+    const articleAuthor = article.getAttribute('data-author');
+    const articleAuthorToLowerCase = articleAuthor.toLowerCase();
+    const linkAuthor = articleAuthorToLowerCase.replace(' ','');
+    console.log('Link_AUTOR', linkAuthor)
+    html = '<li><a class="author-link" href="#' + linkAuthor +'"><span>' + articleAuthor +'</span></a></li>'+ ' ';
+    console.log(html);
+    const authorElement = document.querySelector('.author-list.list-horizontal');
+    authorElement.innerHTML = html;
+}
+generateAuthor();
+
+//END OF FOURTH MODULE
 
 // FIRST MODULE, adding classes, opening articles
 function titleClickHandler(event){
@@ -86,7 +96,6 @@ function tagClickHandler(event) {
     const href = clickedElement.getAttribute('href');   // make a new constant "href" and read the attribute "href" of the clicked element
     const tag = href;  /* make a new constant "tag" and extract tag from the "href" constant */
     const tagLinks = document.querySelectorAll('.tag-links .active'); /* find all tag links with class active */
-    //console.log('wyświetlanie TAG-LINKS',tagLinks);
 
     for(let link of tagLinks) { 
         link.remove('active');
@@ -95,7 +104,6 @@ function tagClickHandler(event) {
 
 function addClickListenersToTags(){
     const allTagLinks = document.querySelectorAll('.tag-link');
-
     for(let link of allTagLinks) {
         link.addEventListener('click',tagClickHandler);
     } 
