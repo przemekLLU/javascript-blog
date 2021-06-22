@@ -52,7 +52,7 @@ function generateAuthor(){
     console.log('Link_AUTOR', linkAuthor)
     html = '<li><a class="author-link" href="#' + linkAuthor +'"><span>' + articleAuthor +'</span></a></li>'+ ' ';
     console.log(html);
-    const authorElement = document.querySelector('.author-list.list-horizontal');
+    const authorElement = document.querySelector('.author-link.list-horizontal');
     authorElement.innerHTML = html;
 }
 generateAuthor();
@@ -109,5 +109,8 @@ function addClickListenersToTags(){
     } 
     
   }
-  
   addClickListenersToTags();
+
+  function addClickListenersToAuthors(){
+    const authorLink = document.querySelector('.author-link')
+  }
