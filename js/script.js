@@ -113,4 +113,30 @@ function addClickListenersToTags(){
 
   function addClickListenersToAuthors(){
     const authorLink = document.querySelector('.author-link')
+    authorLink.addEventListener('click',authorClickHandler);//tutaj coś nie pokolorowało
   }
+  addClickListenersToAuthors();
+
+/*
+  function tagClickHandler(event) {
+    console.log('tagClickHandler')
+    event.preventDefault();         // prevent default action for this event 
+    const clickedElement = this;    // make new constant named "clickedElement" and give it the value of "this" 
+    const href = clickedElement.getAttribute('href');   // make a new constant "href" and read the attribute "href" of the clicked element
+    const tag = href;  // make a new constant "tag" and extract tag from the "href" constant 
+    const tagLinks = document.querySelectorAll('.tag-links .active'); // find all tag links with class active 
+
+    for(let link of tagLinks) { 
+        link.remove('active');
+    }
+} 
+*/
+function authorClickHandler(event) {
+    console.log('authorCILCK-HANDLER');
+    event.preventDefault();
+    const clickedElement = this;
+    const href = clickedElement.getAttribute('href');
+    const author = href;
+    const authorLink = document.querySelector('.author-link .active');
+    //generateTitleLinks('.author' = );
+}
