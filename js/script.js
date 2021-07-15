@@ -41,23 +41,6 @@ generateTags();   //END OF THIRD MODULE
 
 //BEGIN OF FOURTH MODULE
 
-//function generateAuthor() {   
-
-    //const articles = document.querySelectorAll('.post');
-
-    //for (let article of articles) {
-    //    let html='';
-    //    const articleAuthor = article.getAttribute('data-author');
-    //    const articleAuthorToLowerCase = articleAuthor.toLowerCase();
-    //    const linkAuthor = articleAuthorToLowerCase.replace(' ','');
-
-    //    html = '<li><a class="author-link" href="#' + linkAuthor +'"><span>' + articleAuthor +'</span></a></li>'+ ' ';
-    //    const authorElement = article.querySelector('.author-link');
-    //    authorElement.innerHTML = html;
-    //}
-//}
-//generateAuthor();
-
 function generateAuthor()   {
     const articles = document.querySelectorAll(optArticleSelector);
 
@@ -65,11 +48,10 @@ function generateAuthor()   {
         let html ='';
         const articleAuthor = article.getAttribute('data-author');
         const articleAuthorToLowerCase = articleAuthor.toLowerCase();
-        const linkAuthor = articleAuthorToLowerCase.replace(' ','');
+        const linkAuthor = articleAuthorToLowerCase.replace(' ','-');
         html = '<li><a class="author-link" href="#' + linkAuthor +'"><span>' + articleAuthor +'</span></a></li>'+ ' ';
-        const authorElement = article.querySelector('.author-link');
-        console.log('AUTOR ', html);
-        
+        const authorsElement = article.querySelector('.author-link');
+        authorsElement.innerHTML = html;
     }
 }
 generateAuthor();
@@ -78,18 +60,15 @@ generateAuthor();
 //END OF FOURTH MODULE
 
 // FIRST MODULE, adding classes, opening articles
-function titleClickHandler(event){
+function titleClickHandler(event)   {
     event.preventDefault();
     const clickedElement = this;
     const activeLinks = document.querySelectorAll('.titles a.active');
-    console.log('ACTIVE', activeLinks);
+    const activeArticles = document.querySelectorAll('.posts article.active');
 
     for(let activeLink of activeLinks) {
         activeLink.classList.remove('active');
     }
-
-    const activeArticles = document.querySelectorAll('.posts article.active');
-
 
     for(let activeArticle of activeArticles){
         activeArticle.classList.remove('active');
@@ -108,11 +87,10 @@ for(let link of links){
 }
 
 function tagClickHandler(event) {
-    event.preventDefault();         /* prevent default action for this event */
-    const clickedElement = this;    // make new constant named "clickedElement" and give it the value of "this" */
+    event.preventDefault();         
+    const clickedElement = this;    
     const href = clickedElement.getAttribute('href');
     const tag_class = href.slice(5);
-
     const articles = document.querySelectorAll(optArticleSelector);
 
     for (let article of articles) {
@@ -124,10 +102,6 @@ function tagClickHandler(event) {
     }
 }
 
-
-
-  /* execute function "generateTitleLinks" with article selector as argument */
-
 function addClickListenersToTags(){
     const allTagLinks = document.querySelectorAll('.tag-link');
     for(let link of allTagLinks) {
@@ -137,23 +111,26 @@ function addClickListenersToTags(){
 }
 addClickListenersToTags();
 
-
-/*
-  function addClickListenersToAuthors(){
-    const authorLinks = document.querySelectorAll('.author-link');
-
-    for (let authorLink of authorLinks) {
-        authorLink.addEventListener('click', authorClickHandler);//tutaj coś nie pokolorowało
+function addClickListenersToAuthors()   {
+    const allAuthorLinks = document.querySelectorAll('.author-link');
+    for (let link of allAuthorLinks)    {
+        link.addEventListener('click',authorClickHandler);
     }
-
-  }
-  addClickListenersToAuthors();
-
-function authorClickHandler(event) {
-    event.preventDefault();
-    const clickedElement = this;
-    const href = clickedElement.getAttribute('href');
-
-    // TODO FILTER ARTICLES BY AUTHOR
 }
-*/
+addClickListenersToAuthors();
+
+function authorClickHandler(event)  {
+    event.preventDefault();
+    
+    const clickedElement = this;
+    const authorName = clickedElement.innerText;
+    const articles = document.querySelectorAll(optArticleSelector);
+
+    for (let article of articles)   {
+        if (article.getAttribute('data-author').includes(authorName)) {
+            article.classList.add('active');
+        } else {
+            article.classList.remove('active');
+        }
+    }
+}
