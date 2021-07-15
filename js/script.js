@@ -25,13 +25,12 @@ generateTitleLinks(); //END OF SECOND MODULE
 
 function generateTags(){
     const articles = document.querySelectorAll('.post');
-
     for(let article of articles) {
         let html = '';
         const articleTags = article.getAttribute('data-tags');
         const articleTagsArray = articleTags.split(' ');
         for (let tag of articleTagsArray) {
-            const tagHTML = '<li><a class="tag-link" href="#tag-' + tag +'"><span>' + tag +'</span></a></li>'+ ' ';
+            const tagHTML = '<li><a class="tag-link active" href="#tag-' + tag +'"><span>' + tag +'</span></a></li>'+ ' ';
             html = html + tagHTML;
         }
         const tagsElement = article.querySelector('.list.list-horizontal');
@@ -95,14 +94,23 @@ for(let link of links){
 function tagClickHandler(event) {
     event.preventDefault();         /* prevent default action for this event */
     const clickedElement = this;    // make new constant named "clickedElement" and give it the value of "this" */
-    const href = clickedElement.getAttribute('href');   // make a new constant "href" and read the attribute "href" of the clicked element
-    const tag = href.slice(5);  /* make a new constant "tag" and extract tag from the "href" constant */
-    const tagLinks = document.querySelectorAll('.tag-links .active'); /* find all tag links with class active */
-    //TU SKOŃCZYŁEM
-    for(let link of tagLinks) {
-        link.remove('active');
+    const href = clickedElement.getAttribute('href');
+    const tag_class = href.slice(5);
+
+    const articles = document.querySelectorAll(optArticleSelector);
+
+    for (let article of articles) {
+        if (article.getAttribute('data-tags').includes(tag_class)) {
+            article.classList.add('active')
+        } else {
+            article.classList.remove('active')
+        }
     }
 }
+
+
+
+  /* execute function "generateTitleLinks" with article selector as argument */
 
 function addClickListenersToTags(){
     const allTagLinks = document.querySelectorAll('.tag-link');
@@ -110,9 +118,11 @@ function addClickListenersToTags(){
         link.addEventListener('click',tagClickHandler);
     }
 
-  }
-  addClickListenersToTags();
+}
+addClickListenersToTags();
 
+
+/*
   function addClickListenersToAuthors(){
     const authorLinks = document.querySelectorAll('.author-link');
 
@@ -130,3 +140,4 @@ function authorClickHandler(event) {
 
     // TODO FILTER ARTICLES BY AUTHOR
 }
+*/
