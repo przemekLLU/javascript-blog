@@ -4,7 +4,7 @@
 
 const  optTitleSelector = '.post-title';
 const optArticleSelector = '.post';
-const optArticleTagsSelector = '.post-tags .list';
+//const optArticleTagsSelector = '.post-tags .list';
 
 function generateTitleLinks(customSelector = ''){
     const articles = document.querySelectorAll(optArticleSelector + customSelector);
@@ -40,24 +40,40 @@ function generateTags(){
 generateTags();   //END OF THIRD MODULE
 
 //BEGIN OF FOURTH MODULE
-/*
-function generateAuthor() {   TU JEST GDZIEŚ BŁAD< BO WYWALA GO NA STRONIE
 
-    const articles = document.querySelectorAll('.post');
+//function generateAuthor() {   
+
+    //const articles = document.querySelectorAll('.post');
+
+    //for (let article of articles) {
+    //    let html='';
+    //    const articleAuthor = article.getAttribute('data-author');
+    //    const articleAuthorToLowerCase = articleAuthor.toLowerCase();
+    //    const linkAuthor = articleAuthorToLowerCase.replace(' ','');
+
+    //    html = '<li><a class="author-link" href="#' + linkAuthor +'"><span>' + articleAuthor +'</span></a></li>'+ ' ';
+    //    const authorElement = article.querySelector('.author-link');
+    //    authorElement.innerHTML = html;
+    //}
+//}
+//generateAuthor();
+
+function generateAuthor()   {
+    const articles = document.querySelectorAll(optArticleSelector);
 
     for (let article of articles) {
-        let html='';
+        let html ='';
         const articleAuthor = article.getAttribute('data-author');
         const articleAuthorToLowerCase = articleAuthor.toLowerCase();
         const linkAuthor = articleAuthorToLowerCase.replace(' ','');
-
         html = '<li><a class="author-link" href="#' + linkAuthor +'"><span>' + articleAuthor +'</span></a></li>'+ ' ';
         const authorElement = article.querySelector('.author-link');
-        authorElement.innerHTML = html;
+        console.log('AUTOR ', html);
+        
     }
 }
 generateAuthor();
-*/
+
 
 //END OF FOURTH MODULE
 
