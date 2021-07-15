@@ -24,27 +24,36 @@ generateTitleLinks(); //END OF SECOND MODULE
 
 //THIRD MODULE generating tags
 
-function generateTags(){
+function generateTags() {
     const articles = document.querySelectorAll('.post');
-    let allTags = [];
-
+    let allTags = {};
+    let allTagsHTML ='';
+    
     for(let article of articles) {
         let html = '';
+        let tagHTML ='';
         const articleTags = article.getAttribute('data-tags');
         const articleTagsArray = articleTags.split(' ');
         for (let tag of articleTagsArray) {
-            const tagHTML = '<li><a class="tag-link active" href="#tag-' + tag +'"><span>' + tag +'</span></a></li>'+ ' ';
+            tagHTML = '<li><a class="tag-link active" href="#tag-' + tag +'"><span>' + tag +'</span></a></li>'+ ' ';
             html = html + tagHTML;
-            if (allTags.indexOf(tagHTML) == -1) {
-                allTags.push(tagHTML);
+            // eslint-disable-next-line no-prototype-builtins
+            if (!allTags.hasOwnProperty(tag))   {
+                allTags[tag] =1;
+            }   else    {
+                allTags[tag]++;
             }
+            allTagsHTML += tagHTML + ' (' + allTags[tag] + ')';
         }
         const tagsElement = article.querySelector('.list.list-horizontal');
         tagsElement.innerHTML = html;
     }    
+    console.log('allTagsHTML', allTagsHTML);
+    
+
     const tagList = document.querySelector('.tags');
-    tagList.innerHTML = allTags.join(' ');
-    console.log(tagList);
+    tagList.innerHTML = allTagsHTML;
+    
 }
 generateTags();   //END OF THIRD MODULE
 
