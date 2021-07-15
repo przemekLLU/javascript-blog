@@ -28,34 +28,54 @@ function generateTags() {
     const articles = document.querySelectorAll('.post');
     let allTags = {};
     let allTagsHTML ='';
-    
+
     for(let article of articles) {
-        let html = '';
-        let tagHTML ='';
+        let articleTagsHtml ='';
         const articleTags = article.getAttribute('data-tags');
         const articleTagsArray = articleTags.split(' ');
+
+
         for (let tag of articleTagsArray) {
-            tagHTML = '<li><a class="tag-link active" href="#tag-' + tag +'"><span>' + tag +'</span></a></li>'+ ' ';
-            html = html + tagHTML;
-            // eslint-disable-next-line no-prototype-builtins
-            if (!allTags.hasOwnProperty(tag))   {
-                allTags[tag] =1;
-            }   else    {
-                allTags[tag]++;
-            }
-            allTagsHTML += tagHTML + ' (' + allTags[tag] + ')';
+            articleTagsHtml += generateArticleTags(tag);
+            allTags = calculateTagsAmount(allTags, tag);
         }
+
         const tagsElement = article.querySelector('.list.list-horizontal');
-        tagsElement.innerHTML = html;
-    }    
-    console.log('allTagsHTML', allTagsHTML);
-    
+        tagsElement.innerHTML = articleTagsHtml;
+    }
+
+    renderAllTags(allTags);
+
+}
+generateTags();   //END OF THIRD MODULE
+
+
+function renderAllTags(tags) {
+    let allTagsHTML = '';
+
+    for(let key in tags) {
+        allTagsHTML += '<li><a class="tag-link active" href="#tag-' + key +'"><span>' + key +' (' + tags[key] + ')'  +'</span></a></li>'+ ' ';
+    }
 
     const tagList = document.querySelector('.tags');
     tagList.innerHTML = allTagsHTML;
-    
 }
-generateTags();   //END OF THIRD MODULE
+
+function calculateTagsAmount(allTags, tag) {
+    if (!allTags.hasOwnProperty(tag))   {
+        allTags[tag] =1;
+    }   else    {
+        allTags[tag]++;
+    }
+
+    return allTags;
+}
+
+function generateArticleTags(tag) {
+    const tahHtml = '<li><a class="tag-link active" href="#tag-' + tag +'"><span>' + tag +'</span></a></li>'+ ' ';
+
+    return tahHtml;
+}
 
 //BEGIN OF FOURTH MODULE
 
@@ -105,8 +125,8 @@ for(let link of links){
 }
 
 function tagClickHandler(event) {
-    event.preventDefault();         
-    const clickedElement = this;    
+    event.preventDefault();
+    const clickedElement = this;
     const href = clickedElement.getAttribute('href');
     const tag_class = href.slice(5);
     const articles = document.querySelectorAll(optArticleSelector);
@@ -139,7 +159,7 @@ addClickListenersToAuthors();
 
 function authorClickHandler(event)  {
     event.preventDefault();
-    
+
     const clickedElement = this;
     const authorName = clickedElement.innerText;
     const articles = document.querySelectorAll(optArticleSelector);
