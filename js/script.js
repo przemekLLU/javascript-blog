@@ -1,10 +1,9 @@
 'use strict';
 
+//SECOND MODULE
 
-
-const  optTitleSelector = '.post-title';
+const optTitleSelector = '.post-title';
 const optArticleSelector = '.post';
-//const optTagsListSelector = '.tags.list';
 
 function generateTitleLinks(customSelector = ''){
     const articles = document.querySelectorAll(optArticleSelector + customSelector);
@@ -19,46 +18,36 @@ function generateTitleLinks(customSelector = ''){
     let listInsertPoint = document.getElementById('link-title-list');
     listInsertPoint.insertAdjacentHTML('afterbegin',html);
 }
-generateTitleLinks(); 
-
+generateTitleLinks();
 
 
 function generateTags() {
     const articles = document.querySelectorAll('.post');
     let allTags = {};
-    let allTagsHTML ='';
-    let tagHTML = '';
-    let tag;
-    
 
     for(let article of articles) {
-        let html = '';
+        let articleTagsHtml ='';
         const articleTags = article.getAttribute('data-tags');
         const articleTagsArray = articleTags.split(' ');
-        for (tag of articleTagsArray) {
-            tagHTML = '<li><a class="tag-link active" href="#tag-' + tag +'"><span>' + tag +'</span></a></li>'+ ' ';
-            html = html + tagHTML;
-            // eslint-disable-next-line no-prototype-builtins
-            if (!allTags.hasOwnProperty(tag))   {
-                allTags[tag] =1;
-            }   else    {
-                allTags[tag]++;
-            }
         
+        for (let tag of articleTagsArray) {
+            articleTagsHtml += generateArticleTags(tag);
+            allTags = calculateTagsAmount(allTags, tag);
         }
-        const tagsElement = article.querySelector('.list.list-horizontal');
-        tagsElement.innerHTML = html;
-        allTagsHTML += tagHTML + ' (' + allTags[tag] + ')';
-    }    
-    const tagList = document.querySelector('.tags');
-    tagList.innerHTML = allTagsHTML;   
-}
-generateTags();   
 
+        const tagsElement = article.querySelector('.list.list-horizontal');
+        tagsElement.innerHTML = articleTagsHtml;
+    }
+
+    renderAllTags(allTags);
+
+}
+generateTags();   //END OF THIRD MODULE
 
 
 function generateAuthor()   {
     const articles = document.querySelectorAll(optArticleSelector);
+    let allAuthors = {};
 
     for (let article of articles) {
         let html ='';
@@ -71,6 +60,34 @@ function generateAuthor()   {
     }
 }
 generateAuthor();
+
+function renderAllTags(tags) {
+    let allTagsHTML = '';
+
+    for(let key in tags) {
+        allTagsHTML += '<li><a class="tag-link active" href="#tag-' + key +'"><span>' + key +' (' + tags[key] + ')'  +'</span></a></li>'+ ' ';
+    }
+
+    const tagList = document.querySelector('.tags');
+    tagList.innerHTML = allTagsHTML;
+}
+
+function calculateTagsAmount(allTags, tag) {
+    if (!allTags.hasOwnProperty(tag))   {
+        allTags[tag] =1;
+    }   else    {
+        allTags[tag]++;
+    }
+
+    return allTags;
+}
+
+function generateArticleTags(tag) {
+    const tagHtmlLink = '<li><a class="tag-link active" href="#tag-' + tag +'"><span>' + tag +'</span></a></li>'+ ' ';
+
+    return tagHtmlLink;
+}
+
 
 
 function titleClickHandler(event)   {
@@ -100,20 +117,23 @@ for(let link of links){
 }
 
 function tagClickHandler(event) {
-    event.preventDefault();         
-    const clickedElement = this;    
+    event.preventDefault();
+    const clickedElement = this;
     const href = clickedElement.getAttribute('href');
-    const tag_class = href.slice(5);
+    const tagClass = href.slice(5);
     const articles = document.querySelectorAll(optArticleSelector);
 
     for (let article of articles) {
-        if (article.getAttribute('data-tags').includes(tag_class)) {
+        if (article.getAttribute('data-tags').includes(tagClass)) {
             article.classList.add('active');
         } else {
             article.classList.remove('active');
         }
     }
+    generateActiveArticles();
 }
+
+
 
 function addClickListenersToTags(){
     const allTagLinks = document.querySelectorAll('.tag-link');
@@ -134,7 +154,7 @@ addClickListenersToAuthors();
 
 function authorClickHandler(event)  {
     event.preventDefault();
-    
+
     const clickedElement = this;
     const authorName = clickedElement.innerText;
     const articles = document.querySelectorAll(optArticleSelector);
@@ -146,4 +166,25 @@ function authorClickHandler(event)  {
             article.classList.remove('active');
         }
     }
+    generateActiveArticles();
 }
+
+// eslint-disable-next-line no-unused-vars
+function generateActiveArticles() { 
+
+    const articles = document.querySelectorAll('.post.active');
+    let activeArticlesHtml = '';
+
+    
+    for (let article of articles)   {
+        if (article.getAttribute('class').includes('active'))   {
+            const articleId = article.getAttribute('id');
+            const articleTitle = (article.querySelector(optTitleSelector)).innerHTML;
+            const linkHTML = '<li><a href="#' + articleId+'"><span>' + articleTitle +'</span></a></li>';
+            activeArticlesHtml += linkHTML;
+        }
+    }
+    let listInsertPoint = document.getElementById('link-title-list');
+    listInsertPoint.innerHTML = activeArticlesHtml;
+}
+
