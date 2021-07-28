@@ -1,6 +1,5 @@
 'use strict';
 
-//SECOND MODULE
 
 const optTitleSelector = '.post-title';
 const optArticleSelector = '.post';
@@ -9,6 +8,7 @@ function generateTitleLinks(customSelector = ''){
     const articles = document.querySelectorAll(optArticleSelector + customSelector);
     let html = '';
 
+    //tutaj prawdopodobnie zmienić by sięwyświetlał tylko kliknięty artykuł
     for(let article of articles){
         const articleId = article.getAttribute('id');
         const articleTitle = (article.querySelector(optTitleSelector)).innerHTML;
@@ -19,8 +19,11 @@ function generateTitleLinks(customSelector = ''){
     listInsertPoint.insertAdjacentHTML('afterbegin',html);
 }
 generateTitleLinks();
+/*
+function calculateTagsParams()  {
 
-
+}
+*/
 function generateTags() {
     const articles = document.querySelectorAll('.post');
     let allTags = {};
@@ -42,12 +45,12 @@ function generateTags() {
     renderAllTags(allTags);
 
 }
-generateTags();   //END OF THIRD MODULE
+generateTags(); 
 
 
 function generateAuthor()   {
     const articles = document.querySelectorAll(optArticleSelector);
-    let allAuthors = {};
+    let allAuthorsArray;
 
     for (let article of articles) {
         let html ='';
@@ -57,11 +60,16 @@ function generateAuthor()   {
         html = '<li><a class="author-link" href="#' + linkAuthor +'"><span>' + articleAuthor +'</span></a></li>'+ ' ';
         const authorsElement = article.querySelector('.author-link');
         authorsElement.innerHTML = html;
+        
+        //if (allAuthorsArray.) //tu dorobić pętlę sprawdzającą czy siępowtarza autor~~!!!!!
     }
 }
 generateAuthor();
 
 function renderAllTags(tags) {
+    //const tagsParams = calculateTagsParams(allTags);
+    //console.log('tagsParams: ', tagsParams);
+
     let allTagsHTML = '';
 
     for(let key in tags) {
@@ -87,8 +95,6 @@ function generateArticleTags(tag) {
 
     return tagHtmlLink;
 }
-
-
 
 function titleClickHandler(event)   {
     event.preventDefault();
