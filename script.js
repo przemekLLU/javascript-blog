@@ -3,8 +3,6 @@
 
 const optTitleSelector = '.post-title';
 const optArticleSelector = '.post';
-const optCloudClassCount = 5;
-const optCloudClassPrefix = 'tag-size-';
 
 function generateTitleLinks(customSelector = ''){
     const articles = document.querySelectorAll(optArticleSelector + customSelector);
@@ -23,38 +21,26 @@ function generateTitleLinks(customSelector = ''){
 generateTitleLinks();
 
 function calculateTagsParams(allTags, min, max)    {
-        
-    min = Object.values(allTags)[0];
-    max = Object.values(allTags)[0];
-
-    for(let key in allTags)
+    
+    let numberOfElementh = Object.keys(allTags).length;
+    console.log(numberOfElementh);
+    console.log(allTags);
+    for(let i = 1 ; i <= numberOfElementh ; i++) 
     {
-        if (allTags[key] < min)  {
-            min = allTags[key];
-        }   else if (allTags[key] > max) {
-            max = allTags[key];
+        if (allTags[i] < min)  {
+            min = allTags[i];
+        }   else if (allTags[i] > max) {
+            max = allTags[i];
         }
-    }      
-    console.log('MIN', min);
-    console.log('MAX', max);
-    let params = {
-        min: min,
-        max: max
-    };
-    console.log(params);
-    return params;
-}
-/*
-function calculateTagClass(count, params) {
+    }
 
-}
-*/
+}   
+
 function generateTags() {
     const articles = document.querySelectorAll('.post');
     let allTags = {};
-    let min;
-    let max;
-
+    let min = allTags[0];
+    let max = allTags[0];
     
     for(let article of articles) {
         let articleTagsHtml ='';
@@ -69,10 +55,10 @@ function generateTags() {
         const tagsElement = article.querySelector('.list.list-horizontal');
         tagsElement.innerHTML = articleTagsHtml;
     }
-     
     renderAllTags(allTags);
     calculateTagsParams(allTags, min, max);
-    
+    console.log('MIN', min);
+    console.log('MAX', max);
 }
 generateTags(); 
 
@@ -98,7 +84,6 @@ generateAuthor();
 
 function renderAllTags(tags) {
     let allTagsHTML = '';
-    //let tagLinkHTML = calculateTagClass;
 
     for(let key in tags) {
         allTagsHTML += '<li><a class="tag-link active" href="#tag-' + key +'"><span>' + key +' (' + tags[key] + ')'  +'</span></a></li>'+ ' ';
@@ -108,13 +93,12 @@ function renderAllTags(tags) {
     tagList.innerHTML = allTagsHTML;
 }
 
-function calculateTagsAmount(allTags, tag)    {
+function calculateTagsAmount(allTags, tag) {
     if (!allTags.hasOwnProperty(tag))   {
         allTags[tag] =1;
     }   else    {
         allTags[tag]++;
     }
-    
     return allTags;
 }
 
@@ -124,7 +108,7 @@ function generateArticleTags(tag) {
     return tagHtmlLink;
 }
 
-function titleClickHandler(event) {
+function titleClickHandler(event)   {
     event.preventDefault();
     const clickedElement = this;
     const activeLinks = document.querySelectorAll('.titles a.active');
@@ -134,7 +118,7 @@ function titleClickHandler(event) {
         activeLink.classList.remove('active');
     }
 
-    for(let activeArticle of activeArticles) {
+    for(let activeArticle of activeArticles){
         activeArticle.classList.remove('active');
     }
 
@@ -157,23 +141,14 @@ function tagClickHandler(event) {
     const tagClass = href.slice(5);
     const articles = document.querySelectorAll(optArticleSelector);
 
-    let tagArticles = [];
     for (let article of articles) {
         if (article.getAttribute('data-tags').includes(tagClass)) {
-            tagArticles.push(article);
             article.classList.add('active');
         } else {
             article.classList.remove('active');
         }
     }
     generateActiveArticles();
-    
-    let sliced = tagArticles.length > 1 ? tagArticles.slice(1, tagArticles.length) : [];
-    for (let article of sliced) {
-        if (article.getAttribute('data-tags').includes(tagClass)) {
-            article.classList.remove('active');
-        }
-    }
 }
 
 
@@ -218,8 +193,9 @@ function generateActiveArticles() {
     const articles = document.querySelectorAll('.post.active');
     let activeArticlesHtml = '';
 
+    
     for (let article of articles)   {
-        if (article.getAttribute('class').includes('active')) {
+        if (article.getAttribute('class').includes('active'))   {
             const articleId = article.getAttribute('id');
             const articleTitle = (article.querySelector(optTitleSelector)).innerHTML;
             const linkHTML = '<li><a href="#' + articleId+'"><span>' + articleTitle +'</span></a></li>';
@@ -229,3 +205,4 @@ function generateActiveArticles() {
     let listInsertPoint = document.getElementById('link-title-list');
     listInsertPoint.innerHTML = activeArticlesHtml;
 }
+
